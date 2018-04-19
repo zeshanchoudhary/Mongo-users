@@ -32,9 +32,14 @@ before((done) => {
 
 // Hook => funcion que se ejecuta antes de cada test
 beforeEach((done) => {
+  const {users, comments, blogposts} = mongoose.connection.collections;
   // borramos todos los records antes de ejecutar el test
-  mongoose.connection.collections.users.drop(() => {
-    // Ready to run next test
-    done(); // diciendo a mocha que ya puede ejecutar el nuevo test
+  users.drop(() => {
+    comments.drop(() => {
+      blogposts.drop(() => {
+        // Ready to run next test
+        done(); // diciendo a mocha que ya puede ejecutar el nuevo test
+      });
+    });
   });
 })
